@@ -1,0 +1,40 @@
+trigger:
+- master  # Define the branch to trigger the pipeline
+
+pool:
+  vmImage: 'ubuntu-latest'  # Use an appropriate agent pool
+
+variables:
+  azureServiceConnection: 'sakshi'  # Replace with your Azure service connection name
+  containerRegistry: 'sakshi1233.azurecr.io'  # Replace with your Azure Container Registry URL
+  containerAppName: 'my-container-app'  # Replace with your desired Azure Container App name
+  resourceGroup: 'Sakshi-rg'  # Replace with your Azure Resource Group name
+
+stages:
+- stage: BuildAndPush
+  jobs:
+  - job: BuildAndPush
+    displayName: 'Build and Push Docker Image'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'  # Use Python 3.x
+        addToPath: true     # Add Python to PATH
+
+    - script: |
+        docker build -t $(containerRegistry)/$(containerAppName):$(Build.BuildId) $(Build.SourcesDirectory)/src
+        docker push $(containerRegistry)/$(containerAppName):$(Build.BuildId)
+      displayName: 'Build and Push Docker Image'
+
+- stage: DeployToAzureContainerApps
+  jobs:
+  - job: DeployContainerApp
+    displayName: 'Deploy to Azure Container Apps'
+    steps:
+    - task: AzureContainerApps@1
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        containerAppName: $(containerAppName)
+        appSourcePath: '$(Build.SourcesDirectory)/src'
+        resourceGroup: $(resourceGroup)
+        acrName: $(containerRegistry)
