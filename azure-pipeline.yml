@@ -7,7 +7,7 @@ pool:
 variables:
   azureServiceConnection: 'sakshi'  # Replace with your Azure service connection name
   containerRegistry: 'sakshi1233.azurecr.io'  # Replace with your Azure Container Registry URL
-  containerAppName: 'my-container-app'  # Replace with your desired Azure Container App name
+  containerAppName: 'mlk'  # Replace with your desired Azure Container App name
   resourceGroup: 'Sakshi-rg'  # Replace with your Azure Resource Group name
 
 stages:
