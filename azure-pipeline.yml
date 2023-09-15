@@ -36,6 +36,6 @@ stages:
       inputs:
         azureSubscription: $(azureServiceConnection)
         containerAppName: $(containerAppName)
-        appSourcePath: '$(Build.SourcesDirectory)/src'
+        appSourcePath: 'react'
         resourceGroup: $(resourceGroup)
         acrName: $(containerRegistry)
