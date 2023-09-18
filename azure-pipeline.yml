@@ -19,16 +19,17 @@ stages:
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '3.x'  # Use Python 3.x
-        addToPath: true     # Add Python to PATH
+        addToPath: true     # Add Python to PATH-
     - task: Docker@2
       inputs:
-        containerRegistry: ''
-        repository: 'react'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-
-- stage: DeployToAzureContainerApps
-  jobs:
+       containerRegistry: 'kkl'
+       repository: 'project12'
+       command: 'buildAndPush'
+       Dockerfile: '**/Dockerfile'
+       tags: 'latest'
+-
+ stage: DeployToAzureContainerApps
+ jobs:
   - job: DeployContainerApp
     displayName: 'Deploy to Azure Container Apps'
     steps:
@@ -36,6 +37,6 @@ stages:
       inputs:
         azureSubscription: $(azureServiceConnection)
         containerAppName: $(containerAppName)
-        appSourcePath: 'react'
+        appSourcePath: 'project12:latest'
         resourceGroup: $(resourceGroup)
         acrName: $(containerRegistry)
