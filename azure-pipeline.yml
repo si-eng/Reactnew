@@ -22,7 +22,7 @@ stages:
         addToPath: true     # Add Python to PATH
     - task: Docker@2
       inputs:
-        containerRegistry: 'kkl'
+        containerRegistry: 'sakshi1233.azurecr.io'
         repository: 'react'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
