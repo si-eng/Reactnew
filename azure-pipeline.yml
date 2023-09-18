@@ -20,6 +20,7 @@ stages:
       inputs:
         versionSpec: '3.x'  # Use Python 3.x
         addToPath: true     # Add Python to PATH-
+        
     - task: Docker@2
       inputs:
        containerRegistry: 'kkl'
@@ -27,9 +28,14 @@ stages:
        command: 'buildAndPush'
        Dockerfile: '**/Dockerfile'
        tags: 'latest'
--
- stage: DeployToAzureContainerApps
- jobs:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'kkl'
+        command: 'login'
+
+ 
+- stage: DeployToAzureContainerApps
+  jobs:
   - job: DeployContainerApp
     displayName: 'Deploy to Azure Container Apps'
     steps:
